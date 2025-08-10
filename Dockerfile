@@ -18,3 +18,5 @@ RUN quasar build
 
 RUN apk del .gyp
 
+# Keep container running so volumes can be accessed
+CMD ["sleep", "infinity"]
