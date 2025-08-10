@@ -18,10 +18,3 @@ RUN quasar build
 
 RUN apk del .gyp
 
-FROM caddy:2-alpine
-ARG PUBLIC_PATH
-WORKDIR /srv
-COPY --from=builder /app/dist/spa/ .${PUBLIC_PATH}
-
-EXPOSE 80
-CMD ["caddy", "file-server"]
