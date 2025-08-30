@@ -75,18 +75,27 @@ const sortedKeys = computed(() => {
 });
 
 function extractValue(item: any): any {
+  // Handle primitive values
+  if (item === null || item === undefined || typeof item !== 'object') {
+    return item;
+  }
+
   if (Array.isArray(item)) {
     return item.map((subitem: any) => extractValue(subitem));
   }
+
   if (
     Object.prototype.hasOwnProperty.call(item, 'value') &&
     Object.prototype.hasOwnProperty.call(item, 'matchLevel')
   ) {
     return item.value;
   }
+
   const values: Record<string, any> = {};
   for (const key in item) {
-    values[key] = extractValue(item[key]);
+    if (Object.prototype.hasOwnProperty.call(item, key)) {
+      values[key] = extractValue(item[key]);
+    }
   }
   return values;
 }
